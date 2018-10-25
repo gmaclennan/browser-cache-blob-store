@@ -29,12 +29,16 @@ BlobStore.prototype.createWriteStream = function(opts, cb) {
   if (typeof opts === 'string') opts = {key:opts}
   if (opts.name && !opts.key) opts.key = opts.name
 
-  var proxy = listen(through(), opts, cb)
+  var proxy = listen(through(), opts)
 
   var response = new Response(nodeToWebStream(proxy))
 
   window.caches.open(this.name).then(function (cache) {
     cache.put(opts.key, response)
+      .then(function () {
+        cb(null, {key:opts.key})
+      })
+      .catch(cb)
   })
   return proxy
 }
