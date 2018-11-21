@@ -2,8 +2,8 @@ var eos = require('end-of-stream')
 var duplexify = require('duplexify')
 var through = require('through2')
 
-var nodeToWebStream = require('readable-stream-node-to-web')
-var webStreamToNode = require('./lib/web-to-node-readable-stream')
+var nodeToWebStream = require('./lib/node-to-web-readable-stream')
+var webToNodeStream = require('./lib/web-to-node-readable-stream')
 
 var listen = function (stream, opts, cb) {
   if (!cb) return stream
@@ -48,7 +48,7 @@ BlobStore.prototype.createReadStream = function (key, opts) {
         err.notFound = true
         return proxy.destroy(err)
       }
-      proxy.setReadable(webStreamToNode(response.body))
+      proxy.setReadable(webToNodeStream(response.body))
     })
   })
   return proxy
