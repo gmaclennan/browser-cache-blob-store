@@ -34,7 +34,10 @@ BlobStore.prototype.createWriteStream = function (opts, cb) {
   })
 
   window.caches.open(this.name).then(function (cache) {
-    cache.put(opts.key, response)
+    cache.put(opts.key, response).catch(function (err) {
+      if (cb) cb(err)
+      proxy.emit('error', err)
+    })
   })
   return proxy
 }
