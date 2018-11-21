@@ -29,7 +29,9 @@ BlobStore.prototype.createWriteStream = function (opts, cb) {
 
   var proxy = listen(through(), opts, cb)
 
-  var response = new window.Response(nodeToWebStream(proxy))
+  var response = new window.Response(nodeToWebStream(proxy), {
+    headers: { 'Content-Type': 'application/octet-stream' }
+  })
 
   window.caches.open(this.name).then(function (cache) {
     cache.put(opts.key, response)
