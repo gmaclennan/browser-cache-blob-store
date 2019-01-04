@@ -1,6 +1,6 @@
 {
   "name": "browser-cache-blob-store",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "blob store that stores blobs using the browser Cache interface",
   "main": "index.js",
   "dependencies": {
