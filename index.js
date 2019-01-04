@@ -30,6 +30,7 @@ BlobStore.prototype.createWriteStream = function (opts, cb) {
   var proxy = listen(through(), opts, cb)
 
   var response = new window.Response(nodeToWebStream(proxy), {
+    status: 200,
     headers: { 'Content-Type': 'application/octet-stream' }
   })
 
